@@ -1,0 +1,13 @@
+{
+  "name": "sub2clashmeta",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler pages deploy",
+    "dev": "wrangler pages dev",
+    "start": "wrangler pages dev"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}
