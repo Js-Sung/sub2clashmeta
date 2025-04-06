@@ -20,17 +20,17 @@ npm run dev  (或  wrangler pages dev)
 - fork本项目，然后在cloudflare上新建一个pages项目，选择连接到git，然后选中刚fork好的项目
 - 在第二步中按照如下填写，key变量按照自己喜欢填写，也可不写
 - ![Image](useless/2.png)
-- 待部署完成后访问`https://<yourpages>.pages.dev/\<key\>`测试，其中`\<key\>`是上一步设置的`key`变量，默认是`123456`
+- 待部署完成后访问`https://<yourpages>.pages.dev/<key>`测试，其中`<key>`是上一步设置的`key`变量，默认是`123456`
 
 
 ## 其他说明
 - 项目采用固定的YAML配置模板(dist/config.js)，部署前用户可以按照自己的需求修改里面的规则
-- 订阅转换后的链接响应头可以带流量信息和过期时间(如果原订阅链接响应头中含有这些信息)，如果多个订阅链接都带该信息，则转换后会合并流量信息，过期时间返回其中最长的。
+- 订阅转换后的链接响应头可以带流量信息和过期时间(如果原订阅链接响应头中含有这些信息)，如果多个订阅链接都带该信息，则转换后会合并流量信息，过期时间返回其中最长的
 - 转换器会对节点进行去重处理(server和port都相同认为是重复)，对重名的节点进行重命名处理。
-- 网页logo取自已不复存在的“狐搜搜”网盘搜索引擎。
-- 订阅链接里的节点数量最好不要太多，不然有可能超过cloudflare免费计划的10ms CPU时间限制，导致转换失败。
+- 网页logo取自已不复存在的“狐搜搜”网盘搜索引擎
+- 订阅链接里的节点数量最好不要太多，不然有可能超过cloudflare免费计划的10ms CPU时间限制，导致转换失败
 - 本文提供一个搭好的实例供测试，不保证一直可用：[sub2clashmeta](https://sub2clashmeta.pages.dev/123abc)
-- 以下是收集的一些免费节点，转换完大概是5k多个节点。
+- 以下是收集的一些免费节点，转换完大概是5k多个节点
 ```
 https://raw.githubusercontent.com/Pawdroid/Free-servers/refs/heads/main/sub
 https://raw.githubusercontent.com/peasoft/NoMoreWalls/master/list_raw.txt
