@@ -18,9 +18,12 @@ npm run dev  (或  wrangler pages dev)
 - 测试无误后执行`npm run deploy`或`wrangler pages deploy`部署到cloudflare上(可能提示要登陆cloudflare)
 ### 方法二：从github部署
 - fork本项目，然后在cloudflare上新建一个pages项目，选择连接到git，然后选中刚fork好的项目
-- 在第二步中按照如下填写，key变量按照自己喜欢填写，也可不写
-- ![Image](useless/2.png)
-- 待部署完成后访问`https://<yourpages>.pages.dev/<key>`测试，其中`<key>`是上一步设置的`key`变量，默认是`123456`
+- 在第二步中按照如下填写
+  ```
+  构建命令:npm install
+  构建输出:dist
+  ```
+- 待部署完成后访问`https://<yourpages>.pages.dev/123456`测试，其中`123456`是默认的`key`，你可以在`变量和机密`下添加一个环境变量`key`后重新部署来覆盖默认的key
 
 
 ## 其他说明
