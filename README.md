@@ -18,7 +18,7 @@ npm run dev  (或  wrangler pages dev)
 - 测试无误后执行`npm run deploy`或`wrangler pages deploy`部署到cloudflare上(可能提示要登陆cloudflare)
 ### 方法二：从github部署
 - fork本项目，然后在cloudflare上新建一个pages项目，选择连接到git，然后选中刚fork好的项目
-- 在第二步中按照如下填写(环境变量key可以不填，填了似乎也不起作用，后续可以在部署完成后在`变量和机密`下再添加)
+- 在第二步中按照如下填写(环境变量key可以不填，这里填了似乎不起作用，后续可以在部署完成后在`变量和机密`下再添加)
 
 ![image](useless/2.png)
 
