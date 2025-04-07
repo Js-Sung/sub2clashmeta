@@ -11,19 +11,18 @@
 - 将本仓库的dist目录、package.json、wrangler.toml下载到一个目录中(假定目录名为xxx)
 - 进入xxx目录，在终端中执行以下命令：
 ```
-npm install "js-yaml"
+npm install
 npm run dev  (或  wrangler pages dev)
 ```
 - 根据指示访问`http://127.0.0.1:8788`应该可以看到nginx页面，访问`http://127.0.0.1:8788/123456`即可看到订阅转换页面(123456是默认的key，key不匹配会显示为nginx错误页不能使用订阅功能，可以防止其他人随意访问你的网站服务，可以在`dist/_worker.js`中修改变量`key_default`以改变默认key，或者是部署后在`设置>变量和机密`上添加一个变量key来覆盖)，推荐输入订阅链接测试下在本地的转换功能是否正常
 - 测试无误后执行`npm run deploy`或`wrangler pages deploy`部署到cloudflare上(可能提示要登陆cloudflare)
 ### 方法二：从github部署
 - fork本项目，然后在cloudflare上新建一个pages项目，选择连接到git，然后选中刚fork好的项目
-- 在第二步中按照如下填写
-  ```
-  构建命令:npm install
-  构建输出:dist
-  ```
-- 待部署完成后访问`https://<yourpages>.pages.dev/123456`测试，其中`123456`是默认的`key`，你可以在`变量和机密`下添加一个环境变量`key`后重新部署来覆盖默认的key
+- 在第二步中按照如下填写(环境变量key可以不填，填了似乎也不起作用，后续可以在部署完成后在`变量和机密`下再添加)
+
+![image](useless/2.png)
+
+- 待部署完成后访问`https://<yourpages>.pages.dev/<key>`测试，其中`<key>`就是刚设置的环境变量key，如果没有设置就是默认的`123456`
 
 
 ## 其他说明
