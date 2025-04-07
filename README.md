@@ -14,7 +14,7 @@
 npm install "js-yaml"
 npm run dev  (或  wrangler pages dev)
 ```
-- 根据指示访问`http://127.0.0.1:8788`应该可以看到nginx页面，访问`http://127.0.0.1:8788/123456`即可看到订阅转换页面(123456是默认的key，key不匹配显示为nginx错误页不能使用订阅功能，可以防止其他人随意访问你的网站服务，可以在`dist/_worker.js`中修改变量`key_default`以改变默认key，或者是部署后在`设置>变量和机密`上添加一个变量key来覆盖)，推荐输入订阅链接测试下在本地的转换功能是否正常
+- 根据指示访问`http://127.0.0.1:8788`应该可以看到nginx页面，访问`http://127.0.0.1:8788/123456`即可看到订阅转换页面(123456是默认的key，key不匹配会显示为nginx错误页不能使用订阅功能，可以防止其他人随意访问你的网站服务，可以在`dist/_worker.js`中修改变量`key_default`以改变默认key，或者是部署后在`设置>变量和机密`上添加一个变量key来覆盖)，推荐输入订阅链接测试下在本地的转换功能是否正常
 - 测试无误后执行`npm run deploy`或`wrangler pages deploy`部署到cloudflare上(可能提示要登陆cloudflare)
 ### 方法二：从github部署
 - fork本项目，然后在cloudflare上新建一个pages项目，选择连接到git，然后选中刚fork好的项目
@@ -26,11 +26,11 @@ npm run dev  (或  wrangler pages dev)
 ## 其他说明
 - 项目采用固定的YAML配置模板(dist/config.js)，部署前用户可以按照自己的需求修改里面的规则
 - 订阅转换后的链接响应头可以带流量信息和过期时间(如果原订阅链接响应头中含有这些信息)，如果多个订阅链接都带该信息，则转换后会合并流量信息，过期时间返回其中最长的
-- 转换器会对节点进行去重处理(server和port都相同认为是重复)，对重名的节点进行重命名处理。
+- 转换器会对节点进行去重处理(server和port都相同认为是重复)，对重名的节点进行重命名处理
 - 网页logo取自已不复存在的“狐搜搜”网盘搜索引擎
 - 订阅链接里的节点数量最好不要太多，不然有可能超过cloudflare免费计划的10ms CPU时间限制，导致转换失败
 - 本文提供一个搭好的实例供测试，不保证一直可用：[sub2clashmeta](https://sub2clashmeta.pages.dev/123abc)
-- 以下是收集的一些免费节点，转换完大概是5k多个节点
+- 以下是收集的一些免费节点订阅供测试，转换完大概是5k多个节点
 ```
 https://raw.githubusercontent.com/Pawdroid/Free-servers/refs/heads/main/sub
 https://raw.githubusercontent.com/peasoft/NoMoreWalls/master/list_raw.txt
