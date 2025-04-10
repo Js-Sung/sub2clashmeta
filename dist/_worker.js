@@ -315,10 +315,10 @@ async function decode_link(url) {
   try {
     req = new Request(url, { 'method': 'GET', 'headers': { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36', 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7' } });
     r = await fetch(req);
-    t = await r.text();
     if (!contentTypeIsText(r.headers) || r.status != 200) {
       return null;
     }
+    t = await r.text();
   } catch (e) {
     console.error("fetch error: " + url + '\n', e);
     return null;
