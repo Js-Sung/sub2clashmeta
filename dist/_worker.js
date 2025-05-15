@@ -543,11 +543,11 @@ function decode_vmess(vmessLink) {
     headers = {};
     httpOpts = {};
     if (host) {
-      headers["Host"] = [host];
+      headers["Host"] = host.split(',');
     }
-    httpOpts["path"] = "/";
+    httpOpts["path"] = ["/"];
     if (path) {
-      httpOpts["path"] = [path];
+      httpOpts["path"] = path.split(',');
     }
     httpOpts["headers"] = headers;
 
@@ -557,7 +557,7 @@ function decode_vmess(vmessLink) {
     headers = {};
     h2Opts = {};
     if (host) {
-      headers["Host"] = host;
+      headers["Host"] = host.split(',');
     }
     if (path) {
       h2Opts["path"] = path;
@@ -570,7 +570,7 @@ function decode_vmess(vmessLink) {
     wsOpts = {};
     wsOpts["path"] = "/";
     if (host) {
-      headers["Host"] = host;
+      headers["Host"] = host.split(',')[0];
     }
     if (path) {
       wsOpts["path"] = path;
