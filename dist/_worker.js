@@ -718,35 +718,31 @@ function decode_vless(vlessLink) {
   }
   let fakeType = params.get("headerType") || "";
   fakeType = fakeType.toLowerCase();
-  if (fakeType == "http") {
+  if (network == "tcp" && fakeType == "http") {
     network = "http";
   } else if (network == "http") {
     network = "h2";
   }
   vless["network"] = network;
-  if (network == "tcp") {
-    if (fakeType && fakeType != "none") {
+  
+  if (network == "http") {
       let headers = {};
       let httpOpts = {};
-      httpOpts["path"] = "/";
+      httpOpts["path"] = ["/"];
       if (host) {
-        headers["Host"] = String(host);
+        headers["Host"] = host.split(",");
       }
-
       let method = params.get("method");
       if (method) {
         httpOpts["method"] = method;
       }
-
       let path = params.get("path");
       if (path) {
-        httpOpts["path"] = String(path);
+        httpOpts["path"] = path.split(",");;
       }
-
       httpOpts["headers"] = headers;
       vless["http-opts"] = httpOpts;
-    }
-  } else if (network == "http") {
+  } else if (network == "h2") {
     let headers = {};
     let h2Opts = {};
     h2Opts["path"] = "/";
@@ -756,7 +752,7 @@ function decode_vless(vlessLink) {
     }
     let host = params.get("host");
     if (host) {
-      h2Opts["host"] = String(host);
+      h2Opts["host"] = host.split(",");
     }
     h2Opts["headers"] = headers;
     vless["h2-opts"] = h2Opts;
