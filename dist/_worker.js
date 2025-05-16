@@ -327,7 +327,7 @@ async function decode_link(url) {
   try {
     z = r.headers.get('subscription-userinfo');
     if (z) {
-      up = parseInt(z.match(/upload=(\d+)/i)[1], 10);;
+      up = parseInt(z.match(/upload=(\d+)/i)[1], 10);
       dn = parseInt(z.match(/download=(\d+)/i)[1], 10);
       to = parseInt(z.match(/total=(\d+)/i)[1], 10);
       ex = parseInt(z.match(/expire=(\d+)/i)[1], 10);
@@ -724,24 +724,24 @@ function decode_vless(vlessLink) {
     network = "h2";
   }
   vless["network"] = network;
-  
+
   if (network == "http") {
-      let headers = {};
-      let httpOpts = {};
-      httpOpts["path"] = ["/"];
-      if (host) {
-        headers["Host"] = host.split(",");
-      }
-      let method = params.get("method");
-      if (method) {
-        httpOpts["method"] = method;
-      }
-      let path = params.get("path");
-      if (path) {
-        httpOpts["path"] = path.split(",");;
-      }
-      httpOpts["headers"] = headers;
-      vless["http-opts"] = httpOpts;
+    let headers = {};
+    let httpOpts = {};
+    httpOpts["path"] = ["/"];
+    if (host) {
+      headers["Host"] = host.split(",");
+    }
+    let method = params.get("method");
+    if (method) {
+      httpOpts["method"] = method;
+    }
+    let path = params.get("path");
+    if (path) {
+      httpOpts["path"] = path.split(",");
+    }
+    httpOpts["headers"] = headers;
+    vless["http-opts"] = httpOpts;
   } else if (network == "h2") {
     let headers = {};
     let h2Opts = {};
