@@ -480,7 +480,7 @@ function decode_ssr(ssrLink) {
 
 function decode_vmess(vmessLink) {
   const pre = 'vmess://';
-  var base64Part, values, vmess, network, tls, alpn, sni, headers, httpOpts, h2Opts, wsOpts, grpcOpts, cipher, host, path;
+  var base64Part, values, vmess, network, tls, alpn, sni, headers, httpOpts, h2Opts, wsOpts, grpcOpts, cipher, host, path, fp;
   if (!vmessLink.startsWith(pre)) {
     return null;
   }
@@ -496,14 +496,20 @@ function decode_vmess(vmessLink) {
   vmess["name"] = values["ps"];
   vmess["type"] = 'vmess';
   vmess["server"] = values["add"];
-  vmess["port"] = values["port"];
+  vmess["port"] = parseInt(values["port"] || '443', 10);
   vmess["uuid"] = values["id"];
+
+  if(!vmess["uuid"] || !vmess["server"] || !vmess["port"]) {
+    console.error("vmess decode error: " + vmessLink);
+    return null;
+  }
+
   vmess["alterId"] = values["aid"] || 0;
   vmess["udp"] = udp_default;
   vmess["tfo"] = tfo_default;
   //vmess["xudp"] = true;
   vmess["tls"] = false;
-  vmess["skip-cert-verify"] = false;
+  vmess["skip-cert-verify"] = true;
 
   vmess["cipher"] = "auto";
   cipher = values["scy"];
@@ -516,7 +522,7 @@ function decode_vmess(vmessLink) {
     vmess["servername"] = sni;
   }
 
-  network = values["net"] || "";
+  network = values["net"] || "tcp";
   network = network.toLowerCase();
   if (values["type"] === "http") {
     network = "http";
@@ -537,6 +543,11 @@ function decode_vmess(vmessLink) {
     }
   }
 
+  fp = values["fp"];
+  if (fp) {
+    vmess["client-fingerprint"] = fp;
+  }
+
   path = values["path"];
   host = values["host"];
   if (network === "http") {
@@ -550,7 +561,6 @@ function decode_vmess(vmessLink) {
       httpOpts["path"] = path.split(',');
     }
     httpOpts["headers"] = headers;
-
     vmess["http-opts"] = httpOpts;
 
   } else if (network === "h2") {
@@ -695,7 +705,7 @@ function decode_vless(vlessLink) {
     vless["servername"] = sni;
   }
   let realityPublicKey = params.get("pbk");
-  if (realityPublicKey) {
+  if (/^[A-Za-z0-9+\/]+={0,2}$/.test(realityPublicKey)) {
     vless["reality-opts"] = {
       "public-key": realityPublicKey,
       "short-id": params.get("sid") || ""
