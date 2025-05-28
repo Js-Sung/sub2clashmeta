@@ -36,9 +36,10 @@ export default {
         let tp = par.get('tp') || undefined;
         let ui = par.get('ui') || undefined;
         let secret = par.get('secret') || undefined;
+        let listmode = par.get('list') || undefined;
 
         if (t == 'clash') {
-          let x = await gen_cfg(u, udp, tfo, mp, sp, rp, hp, tp, ui, secret);
+          let x = await gen_cfg(u, udp, tfo, mp, sp, rp, hp, tp, ui, secret, listmode);
           if (x != null) {
             let y = yaml.dump(x.data);
             let up = x.up;
@@ -83,7 +84,7 @@ function nginx(code) {
 
 
 function gen_html(pre) {
-  let t = `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>sub2clashmeta</title><style>body{font-family:Arial,sans-serif;margin:20px}table{border-collapse:collapse}th,td{border:1px solid#dddddd;text-align:left;padding:8px;width:120px}textarea{width:1000px;height:75px}th{background-color:#f2f2f2}button{padding:8px 16px;background-color:#4CAF50;color:white;border:none;cursor:pointer}button:hover{background-color:#3c8a3f}tr:nth-child(even){background-color:#f9f9f9}</style><script>function processText(){let js={};var a,b;a=document.getElementById('inputText').value;a=a.trim();if(!a){return}js.url=a.split('\\n').join('|');a=document.getElementById('client');try{js.target=a.value}catch(e){}b=["udp","tfo"];for(let c in b){try{a=document.getElementsByName(b[c]);for(let i=1;i<a.length;i++){if(a[i].checked){js[b[c]]=a[i].value;break}}}catch(e){}}b=['mp','sp','hp','rp','tp'];for(let c in b){a=document.getElementById(b[c]);try{let i=parseInt(a.value,10);if(i>0&&i<65536){js[b[c]]=i}}catch(e){}}a=document.getElementById('ui');try{if(a.value&&!/[\s\\:\?\*\|\"\'\<\>\$\!\@\&]/.test(a.value)){js.ui=a.value}}catch(e){}a=document.getElementById('secret');try{a=a.value.trim();if(/^[0-9a-zA-Z]+$/.test(a)){js.secret=a}}catch(e){}a=new URLSearchParams(js).toString();document.getElementById('outputText').value='${pre}'+a}</script></head><body><h3>订阅转换</h3><table><tr><td>订阅链接：</td><td><textarea id="inputText"placeholder="支持订阅链接/base64订阅内容/ss/ssr/vmess/trojan/hysteria/hysteria2/vless节点，多个链接每行一个或用|分隔"></textarea><br></td></tr><tr><td>客户端：</td><td><select id="client"><option value="clash">mihomo/clash</option></select></td></tr><tr><td>UDP代理：</td><td><label><input type="radio"name="udp"value="2"checked/>默认</label><label><input type="radio"name="udp"value="1"/>使能</label><label><input type="radio"name="udp"value="0"/>禁用</label></td></tr><tr><td>tcp fast open：</td><td><label><input type="radio"name="tfo"value="2"checked/>默认</label><label><input type="radio"name="tfo"value="1"/>使能</label><label><input type="radio"name="tfo"value="0"/>禁用</label></td></tr><tr><td>mix-port：</td><td><input type="text"id="mp"placeholder="1-65535(留空为默认值)"></td></tr><tr><td>socks-port：</td><td><input type="text"id="sp"placeholder="1-65535(留空为默认值)"></td></tr><tr><td>port：</td><td><input type="text"id="hp"placeholder="1-65535(留空为默认值)"></td></tr><tr><td>redir-port：</td><td><input type="text"id="rp"placeholder="1-65535(留空为默认值)"></td></tr><tr><td>tproxy-port：</td><td><input type="text"id="tp"placeholder="1-65535(留空为默认值)"></td></tr><tr><td>UI目录：</td><td><input type="text"id="ui"placeholder="目录名(留空为默认值)"></td></tr><tr><td>UI访问密钥：</td><td><input type="text"id="secret"placeholder="字母数字组合(留空为默认值)"></td></tr><tr><td>定制订阅：</td><td><textarea id="outputText"readonly></textarea></td></tr></table><br><button onclick="processText()">生成订阅链接</button><br></body></html>`;
+  let t = `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>sub2clashmeta</title><style>body{font-family:Arial,sans-serif;margin:20px}table{border-collapse:collapse}th,td{border:1px solid#dddddd;text-align:left;padding:8px;width:140px}textarea{width:1000px;height:75px}th{background-color:#f2f2f2}button{padding:8px 16px;background-color:#4CAF50;color:white;border:none;cursor:pointer}button:hover{background-color:#3c8a3f}tr:nth-child(even){background-color:#f9f9f9}</style><script>function processText(){let js={};var a,b;a=document.getElementById('inputText').value;a=a.trim();if(!a){return}js.url=a.split('\\n').join('|');a=document.getElementById('client');try{js.target=a.value}catch(e){}b=["udp","tfo"];for(let c in b){try{a=document.getElementsByName(b[c]);for(let i=1;i<a.length;i++){if(a[i].checked){js[b[c]]=a[i].value;break}}}catch(e){}}a=document.getElementById('lm');if(a.checked){js['list']='true'}else{b=['mp','sp','hp','rp','tp'];for(let c in b){a=document.getElementById(b[c]);try{let i=parseInt(a.value,10);if(i>0&&i<65536){js[b[c]]=i}}catch(e){}}a=document.getElementById('ui');try{if(a.value&&!/[\s\\:\?\*\|\"\'\<\>\$\!\@\&]/.test(a.value)){js.ui=a.value}}catch(e){}a=document.getElementById('secret');try{a=a.value.trim();if(/^[0-9a-zA-Z]+$/.test(a)){js.secret=a}}catch(e){}}a=new URLSearchParams(js).toString();document.getElementById('outputText').value='${pre}'+a}function f(){let a=document.getElementById('lm');let b=['mp','sp','hp','rp','tp','ui','secret'];if(a.checked){b.forEach(c=>{d=document.getElementById(c);d.setAttribute('disabled','disabled')})}else{b.forEach(c=>{d=document.getElementById(c);d.removeAttribute('disabled')})}}</script></head><body><h3>订阅转换</h3><table><tr><td>订阅链接：</td><td><textarea id="inputText"placeholder="支持订阅链接/base64订阅内容/ss/ssr/vmess/trojan/hysteria/hysteria2/vless节点，多个链接每行一个或用|分隔"></textarea><br></td></tr><tr><td>客户端：</td><td><select id="client"><option value="clash">mihomo/clash</option></select></td></tr><tr><td>UDP代理：</td><td><label><input type="radio"name="udp"value="2"checked/>默认</label><label><input type="radio"name="udp"value="1"/>使能</label><label><input type="radio"name="udp"value="0"/>禁用</label></td></tr><tr><td>tcp fast open：</td><td><label><input type="radio"name="tfo"value="2"checked/>默认</label><label><input type="radio"name="tfo"value="1"/>使能</label><label><input type="radio"name="tfo"value="0"/>禁用</label></td></tr><tr><td>mix-port：</td><td><input type="text"id="mp"placeholder="1-65535(留空为默认值)"></td></tr><tr><td>socks-port：</td><td><input type="text"id="sp"placeholder="1-65535(留空为默认值)"></td></tr><tr><td>port：</td><td><input type="text"id="hp"placeholder="1-65535(留空为默认值)"></td></tr><tr><td>redir-port：</td><td><input type="text"id="rp"placeholder="1-65535(留空为默认值)"></td></tr><tr><td>tproxy-port：</td><td><input type="text"id="tp"placeholder="1-65535(留空为默认值)"></td></tr><tr><td>UI目录：</td><td><input type="text"id="ui"placeholder="目录名(留空为默认值)"></td></tr><tr><td>UI访问密钥：</td><td><input type="text"id="secret"placeholder="字母数字组合(留空为默认值)"></td></tr><tr><td>输出为Node List：</td><td><input type="checkbox"id="lm"onchange="f()"unchecked></td></tr><tr><td>定制订阅：</td><td><textarea id="outputText"readonly></textarea></td></tr></table><br><button onclick="processText()">生成订阅链接</button><br></body></html>`;
   return new Response(t, { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' } });
 }
 
@@ -102,12 +103,8 @@ function isValidUrl(urlString) {
 
 
 function contentTypeIsText(headers) {
-  if (!headers.get("content-type") ||
-    headers.get("content-type").indexOf('text/') !== -1 ||
-    headers.get("content-type").indexOf('javascript') !== -1 ||
-    headers.get("content-type").indexOf('urlencoded') !== -1 ||
-    headers.get("content-type").indexOf('json') !== -1 ||
-    headers.get("content-type").indexOf('application/') !== -1) {
+  let a = headers.get("content-type");
+  if (!a || /text\/|javascript|urlencoded|json|yaml|octet-stream/i.test(a)) {
     return true;
   } else {
     return false;
@@ -115,9 +112,9 @@ function contentTypeIsText(headers) {
 }
 
 
-async function gen_cfg(data, udp_en, tfo_en, mp, sp, rp, hp, tp, ui, secret) {
+async function gen_cfg(data, udp_en, tfo_en, mp, sp, rp, hp, tp, ui, secret, listmode) {
   let proxy = {}, nodes_name;
-  let cfg = structuredClone(clash_config);
+  let cfg;
 
   if (typeof (data) != 'string' || data.length < 1) {
     return null;
@@ -157,7 +154,7 @@ async function gen_cfg(data, udp_en, tfo_en, mp, sp, rp, hp, tp, ui, secret) {
     return null;
   }
 
-  // 修改端口、UI、密码等配置
+  // 修改节点全局配置（udp, tfo）
   if (udp_en !== undefined) {
     let en = /^(t|1|y|enable|on)$/i.test(udp_en) ? true : false;
     proxy.nodes.forEach(item => {
@@ -174,6 +171,31 @@ async function gen_cfg(data, udp_en, tfo_en, mp, sp, rp, hp, tp, ui, secret) {
       }
     });
   }
+
+  if (listmode && listmode.toLowerCase() === 'true') {
+    cfg = {};
+    cfg['proxies'] = proxy.nodes;
+  } else {
+    cfg = structuredClone(clash_config);
+    cfg['proxies'] = proxy.nodes;
+
+    // 处理策略组
+    try {
+      cfg['proxy-groups'].forEach(obj => {
+        if (obj.name && !/广告|拦截|直连|净化/.test(obj.name)) {
+          if (obj.proxies && Array.isArray(obj.proxies)) {
+            obj.proxies.push(...nodes_name);
+          } else {
+            obj.proxies = nodes_name.slice();
+          }
+        }
+      });
+    } catch (e) {
+      console.error("Error processing proxy groups: %o", e);
+      return null;
+    }
+
+    // 处理端口、UI、密码等个性化参数
   let v = { "mixed-port": mp, "socks-port": sp, "redir-port": rp, "port": hp, "tproxy-port": tp };
   for (let j in v) {
     try {
@@ -189,22 +211,6 @@ async function gen_cfg(data, udp_en, tfo_en, mp, sp, rp, hp, tp, ui, secret) {
       if (v[j]) cfg[j] = v[j];
     } catch (e) { }
   }
-
-  // 生成配置 
-  try {
-    cfg['proxies'] = proxy.nodes;
-    cfg['proxy-groups'].forEach(obj => {
-      if (obj.name && !/广告|拦截|直连|净化/.test(obj.name)) {
-        if (obj.proxies && Array.isArray(obj.proxies)) {
-          obj.proxies.push(...nodes_name);
-        } else {
-          obj.proxies = nodes_name.slice();
-        }
-      }
-    });
-  } catch (e) {
-    console.error("Error processing proxy groups: %o", e);
-    return null;
   }
 
   return { 'data': cfg, 'up': proxy.up, 'dn': proxy.dn, 'to': proxy.to, 'ex': proxy.ex };
@@ -499,7 +505,7 @@ function decode_vmess(vmessLink) {
   vmess["port"] = parseInt(values["port"] || '443', 10);
   vmess["uuid"] = values["id"];
 
-  if(!vmess["uuid"] || !vmess["server"] || !vmess["port"]) {
+  if (!vmess["uuid"] || !vmess["server"] || !vmess["port"]) {
     console.error("vmess decode error: " + vmessLink);
     return null;
   }
