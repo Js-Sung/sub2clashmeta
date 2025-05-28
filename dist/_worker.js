@@ -196,21 +196,21 @@ async function gen_cfg(data, udp_en, tfo_en, mp, sp, rp, hp, tp, ui, secret, lis
     }
 
     // 处理端口、UI、密码等个性化参数
-  let v = { "mixed-port": mp, "socks-port": sp, "redir-port": rp, "port": hp, "tproxy-port": tp };
-  for (let j in v) {
-    try {
-      if (/^\d+$/.test(v[j])) {
-        let i = parseInt(v[j], 10);
-        if (i > 0 && i < 65536) cfg[j] = i;
-      }
-    } catch (e) { }
-  }
-  v = { "external-ui": ui, "secret": secret };
-  for (let j in v) {
-    try {
-      if (v[j]) cfg[j] = v[j];
-    } catch (e) { }
-  }
+    let v = { "mixed-port": mp, "socks-port": sp, "redir-port": rp, "port": hp, "tproxy-port": tp };
+    for (let j in v) {
+      try {
+        if (/^\d+$/.test(v[j])) {
+          let i = parseInt(v[j], 10);
+          if (i > 0 && i < 65536) cfg[j] = i;
+        }
+      } catch (e) { }
+    }
+    v = { "external-ui": ui, "secret": secret };
+    for (let j in v) {
+      try {
+        if (v[j]) cfg[j] = v[j];
+      } catch (e) { }
+    }
   }
 
   return { 'data': cfg, 'up': proxy.up, 'dn': proxy.dn, 'to': proxy.to, 'ex': proxy.ex };
