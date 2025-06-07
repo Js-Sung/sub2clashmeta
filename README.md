@@ -3,6 +3,10 @@
 - 支持解析订阅链接、base64节点信息、ss/ssr/vmess/trojan/vless/hysteria/hysteria2节点，并输出YAML配置文件。
 - 自带一个前端页面，可以输入订阅链接进行转换，并对端口、UI、节点udp使能等进行配置。
 
+### 在线体验
+- 👉[sub2clashmeta](https://sub2clashmeta.pages.dev/123abc)
+- 👉[sub2clashmeta](https://sub2clashmeta.v6.navy/123abc)
+
 ![Image](useless/1.png)
 
 ## 使用方式
@@ -31,7 +35,6 @@ npm run dev  (或  wrangler pages dev)
 - 转换器会对节点进行去重处理(server和port都相同认为是重复)，对重名的节点进行重命名处理
 - 网页logo取自已不复存在的“狐搜搜”网盘搜索引擎
 - 订阅链接里的节点数量最好不要太多，不然有可能超过cloudflare免费计划的10ms CPU时间限制，导致转换失败
-- 本文提供一个搭好的实例供测试，不保证一直可用：[sub2clashmeta](https://sub2clashmeta.pages.dev/123abc)
 - 以下是收集的一些免费节点订阅供测试，转换完大概是5k多个节点
 ```
 https://raw.githubusercontent.com/Pawdroid/Free-servers/refs/heads/main/sub
@@ -46,3 +49,4 @@ https://raw.githubusercontent.com/mahdibland/SSAggregator/master/sub/sub_merge.t
 ## 参考
 - [SubConv](https://github.com/SubConv/SubConv)
 - [sublink-worker](https://github.com/7Sageer/sublink-worker)
+- [subconverter](https://github.com/tindy2013/subconverter)
