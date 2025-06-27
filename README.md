@@ -1,7 +1,7 @@
 # sub2clashmeta
-- 纯javascript实现的Clash Meta(mihomo)订阅转换器，搭建在免费的cloudflare pages上，而不需要另外购买vps。
+- Clash订阅转换器，前后端合一，无外部依赖。
 - 支持解析订阅链接、base64节点信息、ss/ssr/vmess/trojan/vless/hysteria/hysteria2节点，并输出YAML配置文件。
-- 自带一个前端页面，可以输入订阅链接进行转换，并对端口、UI、节点udp使能等进行配置。
+- 纯javascript实现，零成本搭建在cloudflare pages上，而不需要另外购买vps。
 
 ### 在线体验
 - 👉[sub2clashmeta](https://sub2clashmeta.pages.dev/123abc)
@@ -18,15 +18,12 @@
 npm install
 npm run dev  (或  wrangler pages dev)
 ```
-- 根据指示访问`http://127.0.0.1:8788`应该可以看到nginx页面，访问`http://127.0.0.1:8788/123456`即可看到订阅转换页面(123456是默认的key，key不匹配会显示为nginx错误页不能使用订阅功能，可以防止其他人随意访问你的网站服务，可以在`dist/_worker.js`中修改变量`key_default`以改变默认key，或者是部署后在`设置>变量和机密`上添加一个变量key来覆盖)，推荐输入订阅链接测试下在本地的转换功能是否正常
-- 测试无误后执行`npm run deploy`或`wrangler pages deploy`部署到cloudflare上(可能提示要登陆cloudflare)
+- 访问`http://127.0.0.1:8788/123456`(注意端口可能不一样，根据实际情况更改。`123456`是默认的访问密钥`key`，可以在`dist/_worker.js`中修改变量`key_default`以改变默认值，或者是部署后在`设置>变量和机密`上添加一个变量`key`来覆盖)
+- 执行`npm run deploy`或`wrangler pages deploy`部署到cloudflare上(需要有cloudflare账号)
 ### 方法二：从github部署
 - fork本项目，然后在cloudflare上新建一个pages项目，选择连接到git，然后选中刚fork好的项目
-- 在第二步中按照如下填写(环境变量key可以不填，这里填了似乎不起作用，后续可以在部署完成后在`变量和机密`下再添加)
-
-![image](useless/2.png)
-
-- 待部署完成后访问`https://<yourpages>.pages.dev/<key>`测试，其中`<key>`就是刚设置的环境变量key，如果没有设置就是默认的`123456`
+- 在第二步中，框架预设：`无`，构建命令：`npm install`，构建输出目录：`dist`，环境变量可选添加一个变量`key`来覆盖默认的访问密钥
+- 部署完成后访问：`https://<yourpages>.pages.dev/<key>`
 
 
 ## 其他说明
@@ -42,8 +39,8 @@ https://raw.githubusercontent.com/peasoft/NoMoreWalls/master/list_raw.txt
 https://raw.githubusercontent.com/ermaozi/get_subscribe/main/subscribe/v2ray.txt
 https://raw.githubusercontent.com/aiboboxx/v2rayfree/main/v2
 https://raw.githubusercontent.com/mfuu/v2ray/master/v2ray
-https://raw.githubusercontent.com/mahdibland/SSAggregator/master/sub/airport_sub_merge.txt
 https://raw.githubusercontent.com/mahdibland/SSAggregator/master/sub/sub_merge.txt
+https://raw.githubusercontent.com/PuddinCat/BestClash/refs/heads/main/proxies.yaml
 ```
 
 ## 参考
