@@ -6,7 +6,8 @@ export const clash_config = {
   "port": 7894,
   "allow-lan": true,
   "mode": "Rule",
-  "external-ui": "Yacd-meta-gh-pages",
+  "external-ui": "zashboard",
+  "external-ui-url": 'https://ghfast.top/https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip',
   "secret": "123456",
   "external-controller": ":9090",
   "log-level": "info",
@@ -311,8 +312,8 @@ export const clash_config = {
       "name": "🐟 漏网之鱼",
       "type": "select",
       "proxies": [
-        "🚀 节点选择",
         "🎯 全球直连",
+        "🚀 节点选择",
         "♻️ 自动选择"
       ]
     }

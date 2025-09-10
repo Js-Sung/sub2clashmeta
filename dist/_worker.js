@@ -754,9 +754,10 @@ function decode_vless(vlessLink) {
   }
   let realityPublicKey = params.get("pbk");
   if (/^[A-Za-z0-9+\/]+={0,2}$/.test(realityPublicKey)) {
+    let sid = params.get("sid");
     vless["reality-opts"] = {
       "public-key": realityPublicKey,
-      "short-id": params.get("sid") || ""
+      "short-id": (sid && /^([0-9a-fA-F]{2})+$/.test(sid)) ? sid : ""
     };
   }
 
