@@ -4,6 +4,7 @@ import { clash_config } from './config.js';
 var key_default = "123456";
 var udp_default = true;
 var tfo_default = false;
+var ua_default = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36';
 
 export default {
   async fetch(request, env, ctx) {
@@ -20,6 +21,10 @@ export default {
         return gen_html(url.origin + '/' + key + SUBINF + '?');
       }
       else if (path == SUBINF) {
+        let ua = request.headers.get('User-Agent');
+        if (ua && typeof (ua) == 'string' && ua.length > 0) {
+          ua_default = ua;
+        }
         let headers = { 'Content-Type': 'text/plain; charset=utf-8' };
         let par = url.searchParams;
         let t = par.get('target');
@@ -332,7 +337,7 @@ async function decode_link(url) {
   var t, r, req, z, up, dn, to, ex;
   if (!isValidUrl(url)) return null;
   try {
-    req = new Request(url, { 'method': 'GET', 'headers': { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36', 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7' } });
+    req = new Request(url, { 'method': 'GET', 'headers': { 'User-Agent': ua_default, 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7' } });
     r = await fetch(req);
     if (!contentTypeIsText(r.headers) || r.status != 200) {
       return null;
@@ -483,7 +488,7 @@ function decode_ssr(ssrLink) {
     "rc2-cfb", "seed-cfb", "salsa20", "chacha20", "chacha20-ietf"
   ]);
   var base64Part, decoded, serverInfo, queryString, server, port, protocol, cipher, obfs, passwordBase64, params, protocol_param, obfs_param, remarks, password, randomName;
-  
+
   if (!ssrLink.startsWith(pre)) {
     return null;
   }
