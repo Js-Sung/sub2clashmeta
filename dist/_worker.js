@@ -997,6 +997,9 @@ function decode_hysteria2(hysteria2Link) {
   if (obfs && obfs.toLowerCase() !== "none") {
     hysteria2["obfs"] = obfs;
     hysteria2["obfs-password"] = params.get("obfs-password");
+    if(!hysteria2["obfs-password"]) {
+      return null;
+    }
   }
   sni = params.get("sni") || params.get("peer");
   if (sni) {
