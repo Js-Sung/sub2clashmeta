@@ -654,7 +654,7 @@ function decode_vmess(vmessLink) {
 
 function decode_hysteria(hysteriaLink) {
   const pre = 'hysteria://';
-  var dataPart, parts, server, port, params, name, alpn, up, down, randomName, hysteria;
+  var dataPart, parts, server, port, params, name, alpn, randomName, hysteria;
   if (!hysteriaLink.startsWith(pre)) {
     return null;
   }
@@ -689,15 +689,8 @@ function decode_hysteria(hysteriaLink) {
   }
   hysteria["auth_str"] = params.get("auth");
   hysteria["protocol"] = params.get("protocol");
-  up = params.get("up") || params.get("upmbps");
-  down = params.get("down") || params.get("downmbps");
-
-  if (!up) {
-    hysteria["up"] = up;
-  }
-  if (!down) {
-    hysteria["down"] = down;
-  }
+  hysteria["up"] = params.get("up") || params.get("upmbps") || "10";        // 默认10Mbps
+  hysteria["down"] = params.get("down") || params.get("downmbps") || "10";
   hysteria["skip-cert-verify"] = /y|t|1|on/i.test(params.get("insecure"));
 
   return hysteria;
